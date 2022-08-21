@@ -4,6 +4,35 @@ namespace AppInsightsDemo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    public class AnotherController : ControllerBase
+    {
+        private readonly ILogger<AnotherController> _logger;
+
+        public AnotherController(ILogger<AnotherController> logger)
+        {
+            this._logger = logger;
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Test(int id)
+        {
+            _logger.LogDebug("Debug ");
+            _logger.LogCritical("Critical", id);
+            _logger.LogError("Error", id);
+            _logger.LogTrace("Trace", id);
+            _logger.LogWarning("Warning", id);
+            _logger.LogInformation("Hello World from logs {id}", id);
+
+
+            // Access current OperationId in request. 
+            Console.WriteLine(System.Diagnostics.Activity.Current?.RootId);
+
+            return Content("The number is " + id);
+        }
+    }
+
+    [ApiController]
+    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -33,7 +62,13 @@ namespace AppInsightsDemo.Controllers
         [HttpGet("{id}")]
         public IActionResult GetDetails(int id)
         {
+            _logger.LogDebug("Debug ");
+            _logger.LogCritical("Critical", id);
+            _logger.LogError("Error", id);
+            _logger.LogTrace("Trace", id);
+            _logger.LogWarning("Warning", id);
             _logger.LogInformation("Hello World from logs {id}", id);
+
             return Content("The number is " + id);
         }
     }
